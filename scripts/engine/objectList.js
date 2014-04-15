@@ -1,4 +1,4 @@
-require(["engine/objectLayer"], function(ObjectLayer){
+define(["engine/objectLayer"], function(ObjectLayer){
 
 	var objects = [];
 	var layers = [];
@@ -17,6 +17,14 @@ require(["engine/objectLayer"], function(ObjectLayer){
 		layerNameToIndexMap[layerName] = layerIndex;
 	};
 
+	ObjectList.prototype.getLayers = function(){
+		return layers;
+	};
+
+	ObjectList.prototype.getObjects = function(){
+		return objects;
+	};
+
 	ObjectList.prototype.addObject = function(obj, layerName){
 		obj.priority(layers[layerNameToIndexMap[layerName]].priority)
 			.timestamp((new Date()).getTime())
@@ -24,10 +32,11 @@ require(["engine/objectLayer"], function(ObjectLayer){
 		objects.push(obj);
 	};
 
-	ObjectList.prototype.removeObject = function(objectId){
+	ObjectList.prototype.removeObject = function(object){
 		//TODO MAY NEED TO BE OPTIMIZED
+		object.removed = true;
 		objects = objects.filter(function(obj){
-			return obj.id() !== objectId;
+			return obj.id() !== object.id();
 		});
 	};
 
@@ -49,10 +58,12 @@ require(["engine/objectLayer"], function(ObjectLayer){
 		});
 
 		//handleCollisions
-		//TODO  HANDLE REMOVED OBJECTS
 		collisions.forEach(function(map){
 			var a = map[0];
 			var b = map[1];
+			if(a.removed || b.removed){
+				return;
+			}
 			a.handleCollsion(b);
 			b.handleCollsion(a);
 			if(a.hp === 0){
@@ -73,13 +84,6 @@ require(["engine/objectLayer"], function(ObjectLayer){
 
 		return (bXWithinAX && bYWithinAY) || (aXWithinBX && aYWithinBY);
 	}
-
-
-
-
-
-
-
 
 	var instance = new ObjectList();
 	return instance;

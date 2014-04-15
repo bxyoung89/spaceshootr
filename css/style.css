@@ -1,5 +1,9 @@
 body {
-  user-select: none; }
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%; }
 
 .game-layer {
   height: 100%;

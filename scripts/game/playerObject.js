@@ -1,38 +1,33 @@
-//Note!  This class is used for documentation purposes only.  I think doing some sort of inheritance will introduce too much overhead.
-
 define([], function(){
 
-	function GameObjectBase(){
+	function PlayerObject(x, y){
 		this.directionVector = [0, 0];
-		this.x = 0;
-		this.y = 0;
+		this.x = x;
+		this.y = y;
 		this.sprite = "";
 		this.hp = 10;
 		this.damage = 1;
-		this.height = 100;
-		this.width = 100;
+		this.height = 5;
+		this.width = 5;
 		this.timestampValue = 0;
 		this.priorityValue = 0;
 		this.idValue = 0;
 		this.removed = false;
-		this.color = "red";
+		this.color = "blue";
 	}
 
-	GameObjectBase.prototype.update = function(){
+	//TODO NEED TO FIGURE HOW TO PREVENT GOING OFF THE SCREEN
+	PlayerObject.prototype.update = function(){
 		this.x += this.directionVector[0];
 		this.y += this.directionVector[1];
 	};
 
-	GameObjectBase.prototype.handleCollision = function(collidingObject){
+	PlayerObject.prototype.handleCollision = function(collidingObject){
 		//getting hit
 		this.hp -= collidingObject.damage;
-
-		//maybe changing vector?
-		this.directionVector[0] *= -1;
-		this.directionVector[1] *= -1;
 	};
 
-	GameObjectBase.prototype.priority = function(value){
+	PlayerObject.prototype.priority = function(value){
 		if(arguments.length === 0){
 			return this.priorityValue;
 		}
@@ -40,15 +35,15 @@ define([], function(){
 		return this;
 	};
 
-	GameObjectBase.prototype.timestamp = function(value){
+	PlayerObject.prototype.timestamp = function(value){
 		if(arguments.length === 0){
 			return this.timestampValue;
 		}
 		this.timestampValue = value;
 		return this;
 	};
-	
-	GameObjectBase.prototype.id = function(value){
+
+	PlayerObject.prototype.id = function(value){
 		if(arguments.length === 0){
 			return this.idValue;
 		}
@@ -58,5 +53,5 @@ define([], function(){
 
 
 
-
+	return PlayerObject;
 });
