@@ -1,4 +1,4 @@
-define(["engine/objectList"], function(objectList){
+define(["jquery", "engine/objectList"], function($, objectList){
 
 	function Renderer(canvasId){
 		this.canvas = document.getElementById(canvasId);
@@ -15,7 +15,8 @@ define(["engine/objectList"], function(objectList){
 		var objects = objectList.getObjects();
 
 		//resets the drawing;
-		this.canvas.width = this.canvas.width;
+		this.canvas.width = $(document).width();
+		this.canvas.height = $(document).height();
 
 		//TODO may need to optimize
 		priorityList.forEach(function(priority){
@@ -33,7 +34,7 @@ define(["engine/objectList"], function(objectList){
 
 
 	Renderer.prototype.startRenderLoop = function(){
-		window.setInterval(this.render.bind(this), 20);
+		window.setInterval(this.render.bind(this), 1);
 	};
 
 

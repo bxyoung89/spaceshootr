@@ -64,8 +64,8 @@ define(["engine/objectLayer"], function(ObjectLayer){
 			if(a.removed || b.removed){
 				return;
 			}
-			a.handleCollsion(b);
-			b.handleCollsion(a);
+			a.handleCollision(b);
+			b.handleCollision(a);
 			if(a.hp === 0){
 				this.removeObject(a);
 			}

@@ -7,8 +7,8 @@ define([], function(){
 		this.sprite = "";
 		this.hp = 10;
 		this.damage = 1;
-		this.height = 5;
-		this.width = 5;
+		this.height = 50;
+		this.width = 50;
 		this.timestampValue = 0;
 		this.priorityValue = 0;
 		this.idValue = 0;
@@ -24,7 +24,7 @@ define([], function(){
 
 	EnemyObject.prototype.handleCollision = function(collidingObject){
 		//getting hit
-		this.hp -= collidingObject.damage;
+		//this.hp -= collidingObject.damage;
 
 		//maybe changing vector?
 		this.directionVector[0] *= -1;
