@@ -27,9 +27,15 @@ define([], function () {
 	}
 
 	//TODO NEED TO FIGURE HOW TO PREVENT GOING OFF THE SCREEN
-	PlayerObject.prototype.update = function () {
-		this.x += this.directionVector[0] * this.speed;
-		this.y += this.directionVector[1] * this.speed;
+	PlayerObject.prototype.update = function (screenWidth, screenHeight) {
+		var newX = this.x + this.directionVector[0] * this.speed;
+		if(newX >= 0 && newX <= screenWidth - this.width){
+			this.x = newX;
+		}
+		var newY = this.y + this.directionVector[1] * this.speed;
+		if(newY >= 0 && newY <= screenHeight - this.height){
+			this.y = newY;
+		}
 	};
 
 	PlayerObject.prototype.handleCollision = function (collidingObject) {

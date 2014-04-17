@@ -6,7 +6,9 @@ define(["jquery", "engine/objectList"], function($, objectList){
 	}
 
 	Renderer.prototype.render = function(){
-		objectList.updateObjects();
+		var screenWidth = $(document).width();
+		var screenHeight = $(document).height();
+		objectList.updateObjects(screenWidth, screenHeight);
 		//TODO may need to worry about layers with same priority
 		var layerList = objectList.getLayers();
 		var priorityList = layerList.map(function(layer){
@@ -15,8 +17,8 @@ define(["jquery", "engine/objectList"], function($, objectList){
 		var objects = objectList.getObjects();
 
 		//resets the drawing;
-		this.canvas.width = $(document).width();
-		this.canvas.height = $(document).height();
+		this.canvas.width = screenWidth;
+		this.canvas.height = screenHeight;
 
 		//TODO may need to optimize
 		priorityList.forEach(function(priority){

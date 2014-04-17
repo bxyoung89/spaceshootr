@@ -40,11 +40,11 @@ define(["engine/objectLayer"], function(ObjectLayer){
 		});
 	};
 
-	ObjectList.prototype.updateObjects = function(){
+	ObjectList.prototype.updateObjects = function(screenWidth, screenHeight){
 
 		//move all objects
 		objects.forEach(function(obj){
-			obj.update();
+			obj.update(screenWidth, screenHeight);
 		});
 
 		//detect collisions
