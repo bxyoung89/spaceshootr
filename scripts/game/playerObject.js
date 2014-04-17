@@ -1,19 +1,20 @@
-define([], function () {
+define(["game/constants"], function (constants) {
 
 	function PlayerObject(x, y) {
 		this.directionVector = [0, 0];
 		this.x = x;
 		this.y = y;
 		this.sprite = "";
-		this.hp = 10;
-		this.damage = 1;
-		this.height = 100;
-		this.width = 100;
+		this.hp = constants.player.hp;
+		this.damage = constants.player.damage;
+		this.height = constants.player.height;
+		this.width = constants.player.width;
 		this.timestampValue = 0;
 		this.priorityValue = 0;
 		this.idValue = 0;
 		this.removed = false;
 		this.color = "blue";
+		this.type = "player";
 
 		this.keys = {
 			"W": false,
@@ -23,7 +24,7 @@ define([], function () {
 		};
 		this.AWasLast = false;
 		this.WWasLast = false;
-		this.speed = 2;
+		this.speed = constants.player.speed;
 	}
 
 	//TODO NEED TO FIGURE HOW TO PREVENT GOING OFF THE SCREEN

@@ -2,32 +2,31 @@ define(["game/constants"], function(constants){
 
 	var offScreenBoundaryArea = 50;
 
-	function EnemyObject(x, y, directionVector){
+	function BulletObject(x, y, directionVector){
 		this.directionVector = directionVector;
 		this.x = x;
 		this.y = y;
 		this.sprite = "";
-		this.hp = constants.enemy.hp;
-		this.damage = constants.enemy.damage;
-		this.height = constants.enemy.height;
-		this.width = constants.enemy.width;
+		this.hp = constants.bullet.hp;
+		this.damage = constants.bullet.damage;
+		this.height = constants.bullet.height;
+		this.width = constants.bullet.width;
 		this.timestampValue = 0;
 		this.priorityValue = 0;
 		this.idValue = 0;
 		this.removed = false;
-		this.color = "red";
-		this.speed = constants.enemy.speed;
-		this.type = "enemy";
+		this.color = "orange";
+		this.speed = constants.bullet.speed;
+		this.type = "bullet";
 	}
 
 	//TODO NEED TO FIGURE HOW TO PREVENT GOING OFF THE SCREEN
-	EnemyObject.prototype.update = function(screenWidth, screenHeight){
-		
+	BulletObject.prototype.update = function(screenWidth, screenHeight){
+
 		var newX = this.x + this.directionVector[0] * this.speed;
 		var newXIsOutOfBoundary = newX < offScreenBoundaryArea*-1 || newX > screenWidth - this.width + offScreenBoundaryArea;
 		if(newXIsOutOfBoundary){
-			bounceOffX.bind(this)();
-			newX = this.x + this.directionVector[0] * this.speed;
+			this.hp = 0;
 		}
 		this.x = newX;
 
@@ -35,22 +34,22 @@ define(["game/constants"], function(constants){
 		var newY = this.y + this.directionVector[1] * this.speed;
 		var newYIsOutOfBoundary = newY < offScreenBoundaryArea*-1 || newY > screenHeight - this.height + offScreenBoundaryArea;
 		if(newYIsOutOfBoundary){
-			bounceOffY.bind(this)();
-			newY = this.y + this.directionVector[1] * this.speed;
+			this.hp = 0;
 		}
 		this.y = newY;
 	};
 
-	EnemyObject.prototype.handleCollision = function(collidingObject){
-		//getting hit
-		//this.hp -= collidingObject.damage;
-
-		//maybe changing vector?
-		bounceOffX.bind(this)();
-		bounceOffY.bind(this)();
+	BulletObject.prototype.handleCollision = function(collidingObject){
+		if(collidingObject.type === "bullet"){
+			bounceOffX.bind(this)();
+			bounceOffY.bind(this)();
+			this.speed /=2;
+			return;
+		}
+		this.hp = 0;
 	};
 
-	EnemyObject.prototype.priority = function(value){
+	BulletObject.prototype.priority = function(value){
 		if(arguments.length === 0){
 			return this.priorityValue;
 		}
@@ -58,7 +57,7 @@ define(["game/constants"], function(constants){
 		return this;
 	};
 
-	EnemyObject.prototype.timestamp = function(value){
+	BulletObject.prototype.timestamp = function(value){
 		if(arguments.length === 0){
 			return this.timestampValue;
 		}
@@ -66,7 +65,7 @@ define(["game/constants"], function(constants){
 		return this;
 	};
 
-	EnemyObject.prototype.id = function(value){
+	BulletObject.prototype.id = function(value){
 		if(arguments.length === 0){
 			return this.idValue;
 		}
@@ -84,5 +83,5 @@ define(["game/constants"], function(constants){
 
 
 
-	return EnemyObject;
+	return BulletObject;
 });

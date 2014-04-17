@@ -41,11 +41,19 @@ define(["engine/objectLayer"], function(ObjectLayer){
 	};
 
 	ObjectList.prototype.updateObjects = function(screenWidth, screenHeight){
+		var objectsToRemove = [];
 
 		//move all objects
 		objects.forEach(function(obj){
 			obj.update(screenWidth, screenHeight);
+			if(obj.hp === 0){
+				objectsToRemove.push(obj);
+			}
 		});
+
+		objectsToRemove.forEach(function(obj){
+			this.removeObject(obj);
+		}, this);
 
 		//detect collisions
 		var collisions = [];
