@@ -28,7 +28,8 @@ define(["jquery", "engine/objectList"], function($, objectList){
 			matchingObjects.forEach(function(obj){
 				var canvasContext = this.canvas.getContext("2d");
 				canvasContext.fillStyle = obj.color;
-				canvasContext.fillRect(obj.x, obj.y, obj.width, obj.height);
+				var topLeftCorner = obj.topLeftCorner();
+				canvasContext.fillRect(topLeftCorner.x, topLeftCorner.y, obj.width, obj.height);
 			}, this);
 		}, this);
 

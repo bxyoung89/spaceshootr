@@ -5,10 +5,8 @@ define(["engine/objectList", "game/constants", "game/bulletObject"], function(ob
 	}
 
 	BulletManager.prototype.shoot =function(shootingObject, directionVector){
-		var shootingObjectCenterX = shootingObject.x + shootingObject.width/2;
-		var shootingObjectCenterY = shootingObject.y + shootingObject.height/2;
-		var bulletX = shootingObjectCenterX + (directionVector[0] * shootingObject.width);
-		var bulletY = shootingObjectCenterY + (directionVector[1] * shootingObject.height);
+		var bulletX = shootingObject.x+ (directionVector.x * (shootingObject.width + constants.bullet.width));
+		var bulletY = shootingObject.y + (directionVector.y * (shootingObject.height + constants.bullet.width));
 		var bullet = new BulletObject(bulletX, bulletY, directionVector);
 		objectList.addObject(bullet, "bullet");
 	};

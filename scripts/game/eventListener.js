@@ -1,4 +1,4 @@
-define(["jquery", "game/bulletManager"], function($, bulletManager){
+define(["jquery", "game/bulletManager", "engine/vector"], function($, bulletManager, Vector){
 
 	function EventListener(playerObj){
 		this.player = playerObj;
@@ -20,12 +20,7 @@ define(["jquery", "game/bulletManager"], function($, bulletManager){
 	}
 
 	function handleClick(){
-		var vectorX = event.x - this.player.x;
-		var vectorY = event.y - this.player.y;
-		var normalizedX = vectorX / (Math.abs(vectorX) + Math.abs(vectorY));
-		var normalizedY = vectorY / (Math.abs(vectorX) + Math.abs(vectorY));
-
-		bulletManager.shoot(this.player, [normalizedX, normalizedY]);
+		bulletManager.shoot(this.player, Vector.createFromPoints(this.player.x, this.player.y, event.x, event.y));
 	}
 
 	return EventListener;

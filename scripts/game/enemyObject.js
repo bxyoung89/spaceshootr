@@ -1,4 +1,4 @@
-define(["game/constants"], function(constants){
+define(["game/constants", "engine/gameObjectBase"], function(constants, GameObjectBase){
 
 	var offScreenBoundaryArea = 50;
 
@@ -20,23 +20,24 @@ define(["game/constants"], function(constants){
 		this.type = "enemy";
 	}
 
-	//TODO NEED TO FIGURE HOW TO PREVENT GOING OFF THE SCREEN
+	EnemyObject.prototype = new GameObjectBase();
+
 	EnemyObject.prototype.update = function(screenWidth, screenHeight){
 		
-		var newX = this.x + this.directionVector[0] * this.speed;
+		var newX = this.x + this.directionVector.x * this.speed;
 		var newXIsOutOfBoundary = newX < offScreenBoundaryArea*-1 || newX > screenWidth - this.width + offScreenBoundaryArea;
 		if(newXIsOutOfBoundary){
 			bounceOffX.bind(this)();
-			newX = this.x + this.directionVector[0] * this.speed;
+			newX = this.x + this.directionVector.y * this.speed;
 		}
 		this.x = newX;
 
 
-		var newY = this.y + this.directionVector[1] * this.speed;
+		var newY = this.y + this.directionVector.y * this.speed;
 		var newYIsOutOfBoundary = newY < offScreenBoundaryArea*-1 || newY > screenHeight - this.height + offScreenBoundaryArea;
 		if(newYIsOutOfBoundary){
 			bounceOffY.bind(this)();
-			newY = this.y + this.directionVector[1] * this.speed;
+			newY = this.y + this.directionVector.y * this.speed;
 		}
 		this.y = newY;
 	};
@@ -50,36 +51,12 @@ define(["game/constants"], function(constants){
 		bounceOffY.bind(this)();
 	};
 
-	EnemyObject.prototype.priority = function(value){
-		if(arguments.length === 0){
-			return this.priorityValue;
-		}
-		this.priorityValue = value;
-		return this;
-	};
-
-	EnemyObject.prototype.timestamp = function(value){
-		if(arguments.length === 0){
-			return this.timestampValue;
-		}
-		this.timestampValue = value;
-		return this;
-	};
-
-	EnemyObject.prototype.id = function(value){
-		if(arguments.length === 0){
-			return this.idValue;
-		}
-		this.idValue = value;
-		return this;
-	};
-
 	function bounceOffX(){
-		this.directionVector[0] = this.directionVector[0] > 0 ? -1* Math.random() : Math.random();
+		this.directionVector.x = this.directionVector.x > 0 ? -1* Math.random() : Math.random();
 	}
 
 	function bounceOffY(){
-		this.directionVector[1] = this.directionVector[1] > 0 ? -1* Math.random() : Math.random();
+		this.directionVector.y = this.directionVector.y > 0 ? -1* Math.random() : Math.random();
 	}
 
 

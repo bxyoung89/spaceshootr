@@ -1,9 +1,9 @@
 //Note!  This class is used for documentation purposes only.  I think doing some sort of inheritance will introduce too much overhead.
 
-define([], function(){
+define(["engine/vector"], function(Vector){
 
 	function GameObjectBase(){
-		this.directionVector = [0, 0];
+		this.directionVector = new Vector(0, 0);
 		this.x = 0;
 		this.y = 0;
 		this.sprite = "";
@@ -28,8 +28,7 @@ define([], function(){
 		this.hp -= collidingObject.damage;
 
 		//maybe changing vector?
-		this.directionVector[0] *= -1;
-		this.directionVector[1] *= -1;
+		this.directionVector.inverse();
 	};
 
 	GameObjectBase.prototype.priority = function(value){
@@ -57,6 +56,12 @@ define([], function(){
 	};
 
 
+	GameObjectBase.prototype.topLeftCorner = function(){
+		return {
+			x: this.x - (this.width/2),
+			y: this.y - (this.height/2)
+		}
+	};
 
-
+	return GameObjectBase;
 });
