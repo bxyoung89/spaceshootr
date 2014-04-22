@@ -1,10 +1,6 @@
 define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/vector"], function(constants, GameObjectBase,bulletManager,Vector){
 
 	var offScreenBoundaryArea = 50;
-	var timeThatLastBulletWasShot = Date.now();
-	var timeToShoot = 3000;
-	var currTime = Date.now();
-	var lastTime = Date.now();
 	
 	function EnemyObject(x, y, directionVector){
 		this.directionVector = directionVector;
@@ -21,18 +17,23 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
 		this.removed = false;
 		this.color = "red";
 		this.speed = constants.enemy.speed;
-		this.type = "enemy";		
+		this.type = "enemy";
+		this.timeThatLastBulletWasShot = Date.now();
+		this.timeToShoot = 3000;
 	}
-
 	EnemyObject.prototype = new GameObjectBase();
 
 	EnemyObject.prototype.update = function(screenWidth, screenHeight){
 
+
 		this.saveLastPosition();
 
 		if(Date.now() - timeThatLastBulletWasShot > timeToShoot){
+
+		if(Date.now() - this.timeThatLastBulletWasShot > this.timeToShoot){			
+
 			bulletManager.shoot(this,Vector.createFromPoints(Math.random(),Math.random(),Math.random(),Math.random()));
-			timeThatLastBulletWasShot = Date.now();
+			this.timeThatLastBulletWasShot = Date.now();
 		}
 
 		
