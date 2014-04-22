@@ -85,10 +85,12 @@ define(["engine/objectLayer"], function(ObjectLayer){
 	};
 
 	function areObjectsColliding(a, b){
-		var bXWithinAX = (a.x <= b.x && b.x <= (a.x + a.width));
-		var aXWithinBX = (b.x <= a.x && a.x <= (b.x + b.width));
-		var bYWithinAY = (a.y <= b.y && b.y <= (a.y + a.height));
-		var aYWithinBY = (b.y <= a.y && a.y <= (b.y + b.height));
+		var aTopLeftCorner = a.topLeftCorner();
+		var bTopLeftCorner = b.topLeftCorner();
+		var bXWithinAX = (aTopLeftCorner.x <= bTopLeftCorner.x && bTopLeftCorner.x <= (aTopLeftCorner.x + a.width));
+		var aXWithinBX = (bTopLeftCorner.x <= aTopLeftCorner.x && aTopLeftCorner.x <= (bTopLeftCorner.x + b.width));
+		var bYWithinAY = (aTopLeftCorner.y <= bTopLeftCorner.y && bTopLeftCorner.y <= (aTopLeftCorner.y + a.height));
+		var aYWithinBY = (bTopLeftCorner.y <= aTopLeftCorner.y && aTopLeftCorner.y <= (bTopLeftCorner.y + b.height));
 
 		return (bXWithinAX && bYWithinAY) || (aXWithinBX && aYWithinBY);
 	}
