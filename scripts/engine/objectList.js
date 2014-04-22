@@ -87,6 +87,7 @@ define(["engine/objectLayer"], function(ObjectLayer){
 	function areObjectsColliding(a, b){
 		var aTopLeftCorner = a.topLeftCorner();
 		var bTopLeftCorner = b.topLeftCorner();
+
 		var bXWithinAX = (aTopLeftCorner.x <= bTopLeftCorner.x && bTopLeftCorner.x <= (aTopLeftCorner.x + a.width));
 		var aXWithinBX = (bTopLeftCorner.x <= aTopLeftCorner.x && aTopLeftCorner.x <= (bTopLeftCorner.x + b.width));
 		var bYWithinAY = (aTopLeftCorner.y <= bTopLeftCorner.y && bTopLeftCorner.y <= (aTopLeftCorner.y + a.height));

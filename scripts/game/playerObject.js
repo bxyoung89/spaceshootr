@@ -30,6 +30,7 @@ define(["game/constants", "engine/gameObjectBase", "engine/vector"], function (c
 	PlayerObject.prototype = new GameObjectBase();
 
 	PlayerObject.prototype.update = function (screenWidth, screenHeight) {
+		this.saveLastPosition();
 		var newX = this.x + this.directionVector.x * this.speed;
 		if(newX >= 0 && newX <= screenWidth - this.width){
 			this.x = newX;
@@ -43,6 +44,7 @@ define(["game/constants", "engine/gameObjectBase", "engine/vector"], function (c
 	PlayerObject.prototype.handleCollision = function (collidingObject) {
 		//getting hit
 		this.hp -= collidingObject.damage;
+		this.restoreLastPosition();
 	};
 
 	PlayerObject.prototype.keyUp = function (key) {

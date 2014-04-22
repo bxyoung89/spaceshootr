@@ -16,9 +16,11 @@ define(["engine/vector"], function(Vector){
 		this.idValue = 0;
 		this.removed = false;
 		this.color = "red";
+		this.lastPosition = undefined;
 	}
 
 	GameObjectBase.prototype.update = function(){
+		this.saveLastPosition();
 		this.x += this.directionVector[0];
 		this.y += this.directionVector[1];
 	};
@@ -29,6 +31,7 @@ define(["engine/vector"], function(Vector){
 
 		//maybe changing vector?
 		this.directionVector.inverse();
+		this.restoreLastPosition();
 	};
 
 	GameObjectBase.prototype.priority = function(value){
@@ -61,6 +64,18 @@ define(["engine/vector"], function(Vector){
 			x: this.x - (this.width/2),
 			y: this.y - (this.height/2)
 		}
+	};
+
+	GameObjectBase.prototype.saveLastPosition = function(){
+		this.lastPosition = {
+			x: this.x,
+			y: this.y
+		};
+	};
+
+	GameObjectBase.prototype.restoreLastPosition = function(){
+		this.x = this.lastPosition.x;
+		this.y = this.lastPosition.y;
 	};
 
 	return GameObjectBase;

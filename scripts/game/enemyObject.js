@@ -23,6 +23,7 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 	EnemyObject.prototype = new GameObjectBase();
 
 	EnemyObject.prototype.update = function(screenWidth, screenHeight){
+		this.saveLastPosition();
 		
 		var newX = this.x + this.directionVector.x * this.speed;
 		var newXIsOutOfBoundary = newX < offScreenBoundaryArea*-1 || newX > screenWidth - this.width + offScreenBoundaryArea;
@@ -49,6 +50,7 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 		//maybe changing vector?
 		bounceOffX.bind(this)();
 		bounceOffY.bind(this)();
+		this.restoreLastPosition();
 	};
 
 	function bounceOffX(){

@@ -24,6 +24,8 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 
 	BulletObject.prototype.update = function(screenWidth, screenHeight){
 
+		this.saveLastPosition();
+
 		var newX = this.x + this.directionVector.x * this.speed;
 		var newXIsOutOfBoundary = newX < offScreenBoundaryArea*-1 || newX > screenWidth - this.width + offScreenBoundaryArea;
 		if(newXIsOutOfBoundary){
@@ -48,6 +50,7 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 			return;
 		}
 		this.hp = 0;
+		this.restoreLastPosition();
 	};
 
 
