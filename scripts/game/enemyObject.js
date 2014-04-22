@@ -1,7 +1,11 @@
-define(["game/constants", "engine/gameObjectBase"], function(constants, GameObjectBase){
+define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/vector"], function(constants, GameObjectBase,bulletManager,Vector){
 
 	var offScreenBoundaryArea = 50;
-
+	var timeThatLastBulletWasShot = Date.now();
+	var timeToShoot = 3000;
+	var currTime = Date.now();
+	var lastTime = Date.now();
+	
 	function EnemyObject(x, y, directionVector){
 		this.directionVector = directionVector;
 		this.x = x;
@@ -17,13 +21,20 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 		this.removed = false;
 		this.color = "red";
 		this.speed = constants.enemy.speed;
-		this.type = "enemy";
+		this.type = "enemy";		
 	}
 
 	EnemyObject.prototype = new GameObjectBase();
 
 	EnemyObject.prototype.update = function(screenWidth, screenHeight){
+
 		this.saveLastPosition();
+
+		if(Date.now() - timeThatLastBulletWasShot > timeToShoot){
+			bulletManager.shoot(this,Vector.createFromPoints(Math.random(),Math.random(),Math.random(),Math.random()));
+			timeThatLastBulletWasShot = Date.now();
+		}
+
 		
 		var newX = this.x + this.directionVector.x * this.speed;
 		var newXIsOutOfBoundary = newX < offScreenBoundaryArea*-1 || newX > screenWidth - this.width + offScreenBoundaryArea;
@@ -32,7 +43,7 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 			newX = this.x + this.directionVector.y * this.speed;
 		}
 		this.x = newX;
-
+		
 
 		var newY = this.y + this.directionVector.y * this.speed;
 		var newYIsOutOfBoundary = newY < offScreenBoundaryArea*-1 || newY > screenHeight - this.height + offScreenBoundaryArea;
@@ -45,8 +56,8 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 
 	EnemyObject.prototype.handleCollision = function(collidingObject){
 		//getting hit
-		//this.hp -= collidingObject.damage;
-
+		//this.hp -= collidingObject.damage;						
+		
 		//maybe changing vector?
 		bounceOffX.bind(this)();
 		bounceOffY.bind(this)();
@@ -60,7 +71,8 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 	function bounceOffY(){
 		this.directionVector.y = this.directionVector.y > 0 ? -1* Math.random() : Math.random();
 	}
-
+	
+	
 
 
 	return EnemyObject;
