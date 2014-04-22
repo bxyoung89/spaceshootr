@@ -28,7 +28,7 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
 
 		this.saveLastPosition();
 
-		if(Date.now() - timeThatLastBulletWasShot > timeToShoot){
+
 
 		if(Date.now() - this.timeThatLastBulletWasShot > this.timeToShoot){			
 
