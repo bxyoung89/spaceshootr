@@ -8,6 +8,7 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
 		this.y = y;
 		this.sprite = "";
 		this.hp = constants.enemy.hp;
+        this.mass = constants.enemy.mass;
 		this.damage = constants.enemy.damage;
 		this.height = constants.enemy.height;
 		this.width = constants.enemy.width;
@@ -54,9 +55,9 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
 		//getting hit
 		this.hp -= collidingObject.damage;
 		
-		//maybe changing vector?
-		bounceOffX.bind(this)();
-		bounceOffY.bind(this)();
+//		//maybe changing vector?
+//		bounceOffX.bind(this)();
+//		bounceOffY.bind(this)();
 		this.restoreLastPosition();
 	};
 

@@ -19,11 +19,22 @@ define(function(){
 	Vector.prototype.add = function(otherVector){
 		this.x += otherVector.x;
 		this.y += otherVector.y;
+
+        return this;
 	};
+
+    Vector.prototype.multiply = function(scalar){
+        this.x *= scalar;
+        this.y *= scalar;
+
+        return this;
+    };
 
 	Vector.prototype.inverse = function(){
 		this.x*=-1;
 		this.y*=-1;
+
+        return this;
 	};
 
 	Vector.prototype.length = function(){
@@ -38,6 +49,8 @@ define(function(){
 		var d = this.length();
 		this.x /= d;
 		this.y /= d;
+
+        return this;
 	};
 
     //

@@ -1,4 +1,4 @@
-define(["game/constants", "engine/gameObjectBase"], function(constants, GameObjectBase){
+define(["game/constants", "engine/gameObjectBase", "engine/vector"], function(constants, GameObjectBase, Vector){
 
     var offScreenBoundaryArea = 50;
 
@@ -8,6 +8,7 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
         this.y = y;
         this.sprite = "";
         this.hp = constants.test.hp;
+        this.mass = 1;
         this.damage = constants.test.damage;
         this.height = constants.test.height;
         this.width = constants.test.width;
@@ -48,9 +49,11 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
         //getting hit
         this.hp -= collidingObject.damage;
 
-        //maybe changing vector?
-        bounceOffX.bind(this)();
-        bounceOffY.bind(this)();
+//
+//
+//        //maybe changing vector?
+//        bounceOffX.bind(this)();
+//        bounceOffY.bind(this)();
         this.restoreLastPosition();
     };
 

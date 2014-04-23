@@ -12,12 +12,16 @@ define(["game/eventListener", "engine/renderer", "engine/objectList", "game/test
 
     objectList.createLayer("test", 1);
 
-    for(var x = 0; x < 10000; x++){
+    for(var x = 0; x < 200; x++){
         var randomNumber = Math.round(Math.random() * 5);
         var test = new TestObject(Math.random() * screenWidth,
                 Math.random() * screenHeight, new Vector(
                (randomNumber % 2 === 0 ? -1 : 1) * Math.random(),
                (randomNumber % 4 === 0 ? -1 : 1) * Math.random()));
+
+        // tests elastic collisions of objects with different masses
+        //test.mass = test.width = test.height = Math.round(Math.random() * 20 + 5);
+
         objectList.addObject(test, "test");
     }
 

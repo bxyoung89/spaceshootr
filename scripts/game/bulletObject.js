@@ -8,6 +8,7 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 		this.y = y;
 		this.sprite = "";
 		this.hp = constants.bullet.hp;
+        this.mass = constants.bullet.mass;
 		this.damage = constants.bullet.damage;
 		this.height = constants.bullet.height;
 		this.width = constants.bullet.width;
@@ -44,9 +45,9 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 
 	BulletObject.prototype.handleCollision = function(collidingObject){
 		if(collidingObject.type === "bullet"){
-			bounceOffX.bind(this)();
-			bounceOffY.bind(this)();
-			this.speed /=2;
+//			bounceOffX.bind(this)();
+//			bounceOffY.bind(this)();
+//			this.speed /=2;
 			return;
 		}
 		this.hp = 0;

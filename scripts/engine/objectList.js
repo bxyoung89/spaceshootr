@@ -1,4 +1,4 @@
-define(["engine/objectLayer", "engine/vector", "engine/quadTree"], function(ObjectLayer, Vector, QuadTree){
+define(["engine/gameObjectBase", "engine/objectLayer", "engine/vector", "engine/quadTree"], function(GameObjectBase, ObjectLayer, Vector, QuadTree){
 
 	var objects = [];
 	var layers = [];
@@ -94,9 +94,14 @@ define(["engine/objectLayer", "engine/vector", "engine/quadTree"], function(Obje
 				return;
 			}
 
+            // elastic collisions
+            GameObjectBase.bounce(a,b);
+
+            // hp
 			a.handleCollision(b);
 			b.handleCollision(a);
-            obj.isColliding = item.isColliding = false;
+
+            a.isColliding = b.isColliding = false;
 
             if(a.hp === 0){
 				this.removeObject(a);

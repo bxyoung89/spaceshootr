@@ -6,6 +6,7 @@ define(["game/constants", "engine/gameObjectBase", "engine/vector"], function (c
 		this.y = y;
 		this.sprite = "";
 		this.hp = constants.player.hp;
+        this.mass = constants.player.mass;
 		this.damage = constants.player.damage;
 		this.height = constants.player.height;
 		this.width = constants.player.width;
@@ -73,14 +74,17 @@ define(["game/constants", "engine/gameObjectBase", "engine/vector"], function (c
 	function recalculateYDirectionVector() {
 		if((this.keys.W && this.keys.S)){
 			this.directionVector.y = this.WWasLast ? -0.5 : 0.5;
+            this.speed = constants.player.speed;
 			return;
 		}
 		if(this.keys.W){
 			this.directionVector.y = -1;
+            this.speed = constants.player.speed;
 			return;
 		}
 		if(this.keys.S){
 			this.directionVector.y = 1;
+            this.speed = constants.player.speed;
 			return;
 		}
 		this.directionVector.y = 0;
@@ -89,14 +93,17 @@ define(["game/constants", "engine/gameObjectBase", "engine/vector"], function (c
 	function recalculateXDirectionVector() {
 		if((this.keys.A && this.keys.D)){
 			this.directionVector.x = this.AWasLast ? -0.5 : 0.5;
+            this.speed = constants.player.speed;
 			return;
 		}
 		if(this.keys.A){
 			this.directionVector.x = -1;
+            this.speed = constants.player.speed;
 			return;
 		}
 		if(this.keys.D){
 			this.directionVector.x = 1;
+            this.speed = constants.player.speed;
 			return;
 		}
 		this.directionVector.x = 0;

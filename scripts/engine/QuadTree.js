@@ -90,6 +90,44 @@ define([], function() {
         }
     }
 
+    QuadTree.prototype.update = function(item)
+    {
+        if(item instanceof Array)
+        {
+            var len = item.length;
+
+            for(var i = 0; i < len; i++)
+            {
+                if (!item[i].hasOwnProperty('quadTree')) return;
+                item[i].quadTree.update(item);
+            }
+        }
+        else
+        {
+            if (!item.hasOwnProperty('quadTree')) return;
+            item.quadTree.update(item);
+        }
+    }
+
+    QuadTree.prototype.remove = function(item)
+    {
+        if(item instanceof Array)
+        {
+            var len = item.length;
+
+            for(var i = 0; i < len; i++)
+            {
+                if (!item[i].hasOwnProperty('quadTree')) return;
+                item[i].quadTree.remove(item);
+            }
+        }
+        else
+        {
+            if (!item.hasOwnProperty('quadTree')) return;
+            item.quadTree.remove(item);
+        }
+    }
+
     /**
      * Clears all nodes and children from the QuadTree
      * @method clear
@@ -116,16 +154,16 @@ define([], function() {
     /************** Node ********************/
 
 
-    function Node(bounds, depth, maxDepth, maxChildren)
+    function Node(bounds, depth, maxDepth, maxChildren, tree)
     {
         this._bounds = bounds;
         this.children = [];
         this.nodes = [];
+        this.tree = tree;
 
         if(maxChildren)
         {
             this._maxChildren = maxChildren;
-
         }
 
         if(maxDepth)
@@ -158,19 +196,24 @@ define([], function() {
     Node.BOTTOM_LEFT = 2;
     Node.BOTTOM_RIGHT = 3;
 
+    Node.prototype.contains = function(item)
+    {
+        var b = this._bounds;
+        return b.x <= item.x && item.x <= b.x+ b.width && b.y <= item.y && item.y <= b.y+ b.height;
+    }
 
     Node.prototype.insert = function(item)
     {
         if(this.nodes.length)
         {
+            // insert into subnode
             var index = this._findIndex(item);
-
             this.nodes[index].insert(item);
-
             return;
         }
 
         this.children.push(item);
+        item.quadNode = this;
 
         var len = this.children.length;
         if(!(this._depth >= this._maxDepth) &&
@@ -184,6 +227,21 @@ define([], function() {
             }
 
             this.children.length = 0;
+        }
+    }
+
+    Node.prototype.remove = function(item)
+    {
+        var i = this.children.index(item);
+        if (i>-1) this.children.splice(i, 1);
+    }
+
+    Node.prototype.update = function(item)
+    {
+        if (!this.contains(item))
+        {
+            this.remove(item);
+            this.tree.insert(item);
         }
     }
 
@@ -317,6 +375,7 @@ define([], function() {
 //Note, when returned from QuadTree.retrieve, we then copy the array
     BoundsNode.prototype._out = [];
 
+
     BoundsNode.prototype.insert = function(item)
     {
         if(this.nodes.length)
@@ -356,6 +415,16 @@ define([], function() {
 
             this.children.length = 0;
         }
+    }
+
+    BoundsNode.prototype.update = function(item)
+    {
+        if (this.nodes.length)
+        {
+            var index = this._findIndex(item);
+            var node = this.nodes[index];
+        }
+
     }
 
     BoundsNode.prototype.getChildren = function()
