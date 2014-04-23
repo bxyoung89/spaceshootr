@@ -4,11 +4,14 @@ requirejs.config({
 	}
 });
 
-define(["game/eventListener", "engine/renderer", "engine/objectList", "game/enemyObject", "game/playerObject", "engine/vector"], function(EventListener, Renderer, objectList, EnemyObject, PlayerObject, Vector){
+define(["game/eventListener", "engine/renderer", "engine/objectList", "game/enemyObject", "game/playerObject", "engine/vector","game/gameStateManager"], function(EventListener, Renderer, objectList, EnemyObject, PlayerObject, Vector, gameStateManager){
+
 
 	var player = new PlayerObject(600, 600);
-	var enemy1 = new EnemyObject(0, 0, new Vector(1, 1));
-	var enemy2 = new EnemyObject(900, 0, new Vector(-1, 1));
+    gameStateManager.setPlayer(player);
+	var enemy1 = new EnemyObject(0, 0, new Vector(1, 1),player,gameStateManager);
+	var enemy2 = new EnemyObject(900, 0, new Vector(-1, 1),player,gameStateManager);
+
 	objectList.createLayer("enemy", 1);
 	objectList.createLayer("player", 2);
 

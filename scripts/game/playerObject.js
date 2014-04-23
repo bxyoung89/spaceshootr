@@ -1,6 +1,6 @@
 define(["game/constants", "engine/gameObjectBase", "engine/vector"], function (constants, GameObjectBase, Vector) {
 
-	function PlayerObject(x, y) {
+	function PlayerObject(x, y, gameStateManager) {
 		this.directionVector = new Vector(0, 0);
 		this.x = x;
 		this.y = y;
