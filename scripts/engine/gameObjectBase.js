@@ -17,6 +17,7 @@ define(["engine/vector"], function(Vector){
 		this.removed = false;
 		this.color = "red";
 		this.lastPosition = undefined;
+        this.isColliding = false;
 	}
 
 	GameObjectBase.prototype.update = function(){

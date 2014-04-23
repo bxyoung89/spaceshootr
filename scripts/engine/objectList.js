@@ -1,10 +1,11 @@
-define(["engine/objectLayer", "engine/vector"], function(ObjectLayer, Vector){
+define(["engine/objectLayer", "engine/vector", "engine/quadTree"], function(ObjectLayer, Vector, QuadTree){
 
 	var objects = [];
 	var layers = [];
 	var layerNameToIndexMap = {};
 	var maxObjectId = 0;
-
+    var bounds = {x:0,y:0,width:100,height:100};
+    var quadTree = new QuadTree(bounds, false, 4);
 
 	function ObjectList(){
 
@@ -45,7 +46,7 @@ define(["engine/objectLayer", "engine/vector"], function(ObjectLayer, Vector){
 
 		//move all objects
 		objects.forEach(function(obj){
-			obj.update(screenWidth, screenHeight);
+            obj.update(screenWidth, screenHeight);
 			if(obj.hp === 0){
 				objectsToRemove.push(obj);
 			}
@@ -55,15 +56,35 @@ define(["engine/objectLayer", "engine/vector"], function(ObjectLayer, Vector){
 			this.removeObject(obj);
 		}, this);
 
+
+        quadTree.clear();
+        bounds.width = screenWidth;
+        bounds.height = screenHeight;
+        quadTree.insert(objects);
+
 		//detect collisions
 		var collisions = [];
-		objects.forEach(function(obj, index, array){
-			for(var x = index+1; x < array.length; x++ ){
-				if(areObjectsColliding(obj, array[x])){
-					collisions.push([obj, array[x]]);
-				}
-			}
-		});
+        objects.forEach(function(obj){
+            var items = quadTree.retrieve(obj)
+            for (var i=0; i<items.length; i++)
+            {
+                var item = items[i];
+                if (obj === item) continue;
+                if (obj.isColliding && item.isColliding) continue;
+                if(areObjectsColliding(obj, item)){
+                    collisions.push([obj, item]);
+                    obj.isColliding = item.isColliding = true;
+                }
+            }
+        });
+
+//		objects.forEach(function(obj, index, array){
+//			for(var x = index+1; x < array.length; x++ ){
+//				if(areObjectsColliding(obj, array[x])){
+//					collisions.push([obj, array[x]]);
+//				}
+//			}
+//		});
 
 		//handleCollisions
 		collisions.forEach(function(map){
@@ -72,9 +93,12 @@ define(["engine/objectLayer", "engine/vector"], function(ObjectLayer, Vector){
 			if(a.removed || b.removed){
 				return;
 			}
+
 			a.handleCollision(b);
 			b.handleCollision(a);
-			if(a.hp === 0){
+            obj.isColliding = item.isColliding = false;
+
+            if(a.hp === 0){
 				this.removeObject(a);
 			}
 			if(b.hp === 0){
