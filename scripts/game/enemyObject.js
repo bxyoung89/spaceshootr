@@ -24,14 +24,9 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
 	EnemyObject.prototype = new GameObjectBase();
 
 	EnemyObject.prototype.update = function(screenWidth, screenHeight){
-
-
 		this.saveLastPosition();
 
-
-
-		if(Date.now() - this.timeThatLastBulletWasShot > this.timeToShoot){			
-
+		if(Date.now() - this.timeThatLastBulletWasShot > this.timeToShoot){
 			bulletManager.shoot(this,Vector.createFromPoints(Math.random(),Math.random(),Math.random(),Math.random()));
 			this.timeThatLastBulletWasShot = Date.now();
 		}
@@ -57,7 +52,7 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
 
 	EnemyObject.prototype.handleCollision = function(collidingObject){
 		//getting hit
-		//this.hp -= collidingObject.damage;						
+		this.hp -= collidingObject.damage;
 		
 		//maybe changing vector?
 		bounceOffX.bind(this)();
@@ -72,9 +67,6 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
 	function bounceOffY(){
 		this.directionVector.y = this.directionVector.y > 0 ? -1* Math.random() : Math.random();
 	}
-	
-	
-
 
 	return EnemyObject;
 });

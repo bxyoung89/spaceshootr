@@ -63,7 +63,7 @@ define(["engine/vector"], function(Vector){
 		return {
 			x: this.x - (this.width/2),
 			y: this.y - (this.height/2)
-		}
+		};
 	};
 
 	GameObjectBase.prototype.saveLastPosition = function(){

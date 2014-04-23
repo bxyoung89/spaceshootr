@@ -26,6 +26,13 @@ define(function(){
 			width: 20,
 			hp: 50,
 			damage: 5
+		},
+        test: {
+			speed: 1,
+			height: 5,
+			width: 5,
+			hp: 500,
+			damage: 5
 		}
 
 	};

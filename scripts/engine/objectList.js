@@ -85,20 +85,10 @@ define(["engine/objectLayer", "engine/vector"], function(ObjectLayer, Vector){
 	};
 
 	function areObjectsColliding(a, b){
-        /*
-		var aTopLeftCorner = a.topLeftCorner();
-		var bTopLeftCorner = b.topLeftCorner();
-
-		var bXWithinAX = (aTopLeftCorner.x <= bTopLeftCorner.x && bTopLeftCorner.x <= (aTopLeftCorner.x + a.width));
-		var aXWithinBX = (bTopLeftCorner.x <= aTopLeftCorner.x && aTopLeftCorner.x <= (bTopLeftCorner.x + b.width));
-		var bYWithinAY = (aTopLeftCorner.y <= bTopLeftCorner.y && bTopLeftCorner.y <= (aTopLeftCorner.y + a.height));
-		var aYWithinBY = (bTopLeftCorner.y <= aTopLeftCorner.y && aTopLeftCorner.y <= (bTopLeftCorner.y + b.height));
-		*/
         var distance = Vector.distance(a.x, a.y, b.x, b.y);
         var aRadius = a.width/2;
-        var bRadius = b.width/2
+        var bRadius = b.width/2;
         return aRadius+bRadius > distance;
-		//return (bXWithinAX && bYWithinAY) || (aXWithinBX && aYWithinBY);
 	}
 
 	var instance = new ObjectList();
