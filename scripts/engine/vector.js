@@ -37,6 +37,12 @@ define(function(){
         return this;
 	};
 
+    Vector.random = function(length){
+        var x = Math.random()*2-1;
+        var y = Math.random()*2-1;
+        return new Vector(x, y).normalize().multiply(length || 1);
+    }
+
 	Vector.prototype.length = function(){
 		return Math.sqrt(this.lengthSquared());
 	};

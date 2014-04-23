@@ -20,8 +20,8 @@ define(["game/eventListener", "engine/renderer", "engine/objectList", "game/test
                (randomNumber % 4 === 0 ? -1 : 1) * Math.random()));
 
         // tests elastic collisions of objects with different masses
-        //test.mass = test.width = test.height = Math.round(Math.random() * 20 + 5);
-
+        test.width = test.height = Math.round(Math.random() * 20 + 5);
+        test.mass = test.width*test.width;
         objectList.addObject(test, "test");
     }
 

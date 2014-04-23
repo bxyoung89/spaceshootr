@@ -41,12 +41,12 @@ define(["engine/gameObjectBase", "engine/objectLayer", "engine/vector", "engine/
 		});
 	};
 
-	ObjectList.prototype.updateObjects = function(screenWidth, screenHeight){
+	ObjectList.prototype.updateObjects = function(screenWidth, screenHeight, elapsedSeconds){
 		var objectsToRemove = [];
 
 		//move all objects
 		objects.forEach(function(obj){
-            obj.update(screenWidth, screenHeight);
+            obj.update(screenWidth, screenHeight, elapsedSeconds);
 			if(obj.hp === 0){
 				objectsToRemove.push(obj);
 			}

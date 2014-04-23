@@ -5,10 +5,18 @@ define(["jquery", "engine/objectList"], function($, objectList){
 
 	}
 
+    var lastUpdate;
+
 	Renderer.prototype.render = function(){
 		var screenWidth = $(document).width();
 		var screenHeight = $(document).height();
-		objectList.updateObjects(screenWidth, screenHeight);
+
+        var now = Date.now();
+        var elapsed = (now - this.lastUpdate)/1000.0 || 0;
+        this.lastUpdate = now;
+
+		objectList.updateObjects(screenWidth, screenHeight, elapsed);
+
 		//TODO may need to worry about layers with same priority
 		var layerList = objectList.getLayers();
 		var priorityList = layerList.map(function(layer){

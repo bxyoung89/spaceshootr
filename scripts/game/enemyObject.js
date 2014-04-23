@@ -19,17 +19,20 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
 		this.color = "red";
 		this.speed = constants.enemy.speed;
 		this.type = "enemy";
-		this.timeThatLastBulletWasShot = Date.now();
-		this.timeToShoot = 3000;
+		this.timeThatLastBulletWasShot = 0;
+		this.timeToShoot = 3;
 	}
 	EnemyObject.prototype = new GameObjectBase();
 
-	EnemyObject.prototype.update = function(screenWidth, screenHeight){
+	EnemyObject.prototype.update = function(screenWidth, screenHeight, elapsedSeconds){
 		this.saveLastPosition();
 
-		if(Date.now() - this.timeThatLastBulletWasShot > this.timeToShoot){
-			bulletManager.shoot(this,Vector.createFromPoints(Math.random(),Math.random(),Math.random(),Math.random()));
-			this.timeThatLastBulletWasShot = Date.now();
+        // this should be this.position.add(Vector.multiply(this.velocity, timeElapsed));
+        this.timeThatLastBulletWasShot += elapsedSeconds;
+
+		if(this.timeThatLastBulletWasShot > this.timeToShoot){
+            this.shoot();
+			this.timeThatLastBulletWasShot -= this.timeToShoot;
 		}
 
 		
@@ -50,6 +53,20 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
 		}
 		this.y = newY;
 	};
+
+    EnemyObject.prototype.shoot = function(){
+        var dir;
+        // random
+        dir = Vector.random();
+        //// towards the player
+        // dir = Vector.subtract(GameStateManager.instance.player.position, this.position).normalize();
+        //// plus a bit of error
+        // var normal = new Vector(-dir.y,dir.x).multiply(Math.random()*0.2);
+        // dir.add(normal).normalize();
+        bulletManager.shoot(this, dir);
+
+        //
+    };
 
 	EnemyObject.prototype.handleCollision = function(collidingObject){
 		//getting hit
