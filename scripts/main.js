@@ -9,8 +9,8 @@ define(["game/eventListener", "engine/renderer", "engine/objectList", "game/enem
 
 	var player = new PlayerObject(600, 600);
     gameStateManager.setPlayer(player);
-	var enemy1 = new EnemyObject(0, 0, new Vector(1, 1),player,gameStateManager);
-	var enemy2 = new EnemyObject(900, 0, new Vector(-1, 1),player,gameStateManager);
+	var enemy1 = new EnemyObject(0, 0, new Vector(1, 1),gameStateManager);
+	var enemy2 = new EnemyObject(900, 0, new Vector(-1, 1),gameStateManager);
 
 	objectList.createLayer("enemy", 1);
 	objectList.createLayer("player", 2);

@@ -1,4 +1,4 @@
-define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/vector"], function(constants, GameObjectBase,bulletManager,Vector){
+define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/vector","game/gameStateManager"], function(constants, GameObjectBase,bulletManager,Vector,GameStateManager){
 
 	var offScreenBoundaryArea = 50;
 	
@@ -57,8 +57,10 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
     EnemyObject.prototype.shoot = function(){
         var dir;
         // random
-        dir = Vector.random();
+       // dir = Vector.random();
         //// towards the player
+		dir = Vector.createFromPoints(this.x,this.y,GameStateManager.player.x,GameStateManager.player.y);
+		console.log(dir.x);
         // dir = Vector.subtract(GameStateManager.instance.player.position, this.position).normalize();
         //// plus a bit of error
         // var normal = new Vector(-dir.y,dir.x).multiply(Math.random()*0.2);
