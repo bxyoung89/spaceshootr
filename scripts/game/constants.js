@@ -23,9 +23,9 @@ define(function(){
 			damage: 1
 		},
 		bullet: {
-			speed: 5,
-			height: 20,
-			width: 20,
+			speed: 2.5,
+			height: 10,
+			width: 10,
 			hp: 50,
             mass: 1,
 			damage: 5

@@ -1,7 +1,9 @@
 define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/vector","game/gameStateManager"], function(constants, GameObjectBase,bulletManager,Vector,GameStateManager){
 
 	var offScreenBoundaryArea = 50;
-	
+	var chanceToRapidFire = 0.001;
+    var rapidFireRate = 8; // per sec
+
 	function EnemyObject(x, y, directionVector){
 		this.directionVector = directionVector;
 		this.x = x;
@@ -21,7 +23,10 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
 		this.type = "enemy";
 		this.timeThatLastBulletWasShot = 0;
 		this.timeToShoot = 3;
+        this.bulletsShot = 0;
+        this.isRapidFiring = false;
 	}
+
 	EnemyObject.prototype = new GameObjectBase();
 
 	EnemyObject.prototype.update = function(screenWidth, screenHeight, elapsedSeconds){
@@ -30,9 +35,23 @@ define(["game/constants", "engine/gameObjectBase","game/bulletManager","engine/v
         // this should be this.position.add(Vector.multiply(this.velocity, timeElapsed));
         this.timeThatLastBulletWasShot += elapsedSeconds;
 
-		if(this.timeThatLastBulletWasShot > this.timeToShoot){
+        if (!this.isRapidFiring && Math.random() < chanceToRapidFire) {
+            this.isRapidFiring = true;
+        }
+
+        var time = (this.isRapidFiring) ? 1/rapidFireRate : this.timeToShoot;
+		if(this.timeThatLastBulletWasShot > time){
+            this.timeThatLastBulletWasShot -= time;
+
             this.shoot();
-			this.timeThatLastBulletWasShot -= this.timeToShoot;
+
+            if (this.isRapidFiring){
+                this.bulletsShot++;
+                if (this.bulletsShot > 10) {
+                    this.isRapidFiring = false;
+                    this.bulletsShot = 0;
+                }
+            }
 		}
 
 		

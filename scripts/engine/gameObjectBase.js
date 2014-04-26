@@ -4,6 +4,8 @@ define(["engine/vector"], function(Vector){
 
 	function GameObjectBase(){
 		this.directionVector = new Vector(0, 0);
+        this.position = new Vector(0,0);
+        this.velocity = new Vector(0,0);
 		this.x = 0;
 		this.y = 0;
 		this.sprite = "";

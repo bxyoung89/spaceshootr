@@ -34,10 +34,15 @@ define(["jquery", "engine/objectList"], function($, objectList){
 				return obj.priority() === priority;
 			});
 			matchingObjects.forEach(function(obj){
-				var canvasContext = this.canvas.getContext("2d");
-				canvasContext.fillStyle = obj.color;
+				var ctx = this.canvas.getContext("2d");
+                ctx.fillStyle = obj.color;
 				var topLeftCorner = obj.topLeftCorner();
-				canvasContext.fillRect(topLeftCorner.x, topLeftCorner.y, obj.width, obj.height);
+                ctx.beginPath();
+                //arc(x, y, radius, startAngle, endAngle, anticlockwise)
+                ctx.arc(obj.x, obj.y,obj.width/2,0,Math.PI*2,false);
+                ctx.fill();
+
+                //ctx.fillRect(topLeftCorner.x, topLeftCorner.y, obj.width, obj.height);
 			}, this);
 		}, this);
 

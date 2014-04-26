@@ -1,6 +1,6 @@
 define(["game/constants", "engine/gameObjectBase"], function(constants, GameObjectBase){
 
-	var offScreenBoundaryArea = 50;
+	var offScreenBoundaryArea = 0;
 
 	function BulletObject(x, y, directionVector){
 		this.directionVector = directionVector;
@@ -19,6 +19,7 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 		this.color = "orange";
 		this.speed = constants.bullet.speed;
 		this.type = "bullet";
+        this.bounces = 0;
 	}
 
 	BulletObject.prototype = new GameObjectBase();
@@ -28,19 +29,33 @@ define(["game/constants", "engine/gameObjectBase"], function(constants, GameObje
 		this.saveLastPosition();
 
 		var newX = this.x + this.directionVector.x * this.speed;
-		var newXIsOutOfBoundary = newX < offScreenBoundaryArea*-1 || newX > screenWidth - this.width + offScreenBoundaryArea;
-		if(newXIsOutOfBoundary){
-			this.hp = 0;
-		}
+        if (newX < this.width/2 || newX > screenWidth-this.width/2) {
+            this.directionVector.x *= -1;
+            this.bounces++;
+            newX = this.x + this.directionVector.x * this.speed;
+        }
+
+//		var newXIsOutOfBoundary = newX < offScreenBoundaryArea*-1 || newX > screenWidth - this.width + offScreenBoundaryArea;
+//		if(newXIsOutOfBoundary){
+//			this.hp = 0;
+//		}
 		this.x = newX;
 
 
 		var newY = this.y + this.directionVector.y * this.speed;
-		var newYIsOutOfBoundary = newY < offScreenBoundaryArea*-1 || newY > screenHeight - this.height + offScreenBoundaryArea;
-		if(newYIsOutOfBoundary){
-			this.hp = 0;
-		}
+
+        if (newY < this.height/2 || newY > screenHeight-this.height/2) {
+            this.directionVector.y *= -1;
+            this.bounces++;
+            newY = this.y + this.directionVector.y * this.speed;
+        }
+//		var newYIsOutOfBoundary = newY < offScreenBoundaryArea*-1 || newY > screenHeight - this.height + offScreenBoundaryArea;
+//		if(newYIsOutOfBoundary){
+//			this.hp = 0;
+//		}
 		this.y = newY;
+
+        if (this.bounces == 2) this.hp = 0;
 	};
 
 	BulletObject.prototype.handleCollision = function(collidingObject){

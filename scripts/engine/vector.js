@@ -23,6 +23,13 @@ define(function(){
         return this;
 	};
 
+    Vector.prototype.subtract = function(otherVector){
+        this.x -= otherVector.x;
+        this.y -= otherVector.y;
+
+        return this;
+    };
+
     Vector.prototype.multiply = function(scalar){
         this.x *= scalar;
         this.y *= scalar;
